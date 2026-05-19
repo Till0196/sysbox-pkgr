@@ -789,6 +789,12 @@ function config_containerd_for_sysbox() {
 			-s "plugins.io\.containerd\.grpc\.v1\.cri.containerd.runtimes.sysbox-runc.runtime_type" \
 			-v "io.containerd.runc.v2"
 
+		# Pass the kubelet's pre-allocated pod userns through to sysbox-runc;
+		# otherwise it creates a nested userns and sysfs/proc mounts EPERM.
+		dasel put bool -f "${host_containerd_conf_file}" -p toml \
+			-s "plugins.io\.containerd\.grpc\.v1\.cri.containerd.runtimes.sysbox-runc.options.SupportsUserns" \
+			-v true
+
 		# Set BinaryName option
 		dasel put string -f "${host_containerd_conf_file}" -p toml \
 			-s "plugins.io\.containerd\.grpc\.v1\.cri.containerd.runtimes.sysbox-runc.options.BinaryName" \

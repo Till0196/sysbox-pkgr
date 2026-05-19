@@ -1,5 +1,8 @@
 [plugins."io.containerd.cri.v1.runtime".containerd.runtimes.sysbox-runc]
   runtime_type = "io.containerd.runc.v2"
+  # Let containerd pre-allocate the pod userns and pass it via the OCI spec;
+  # otherwise sysbox-runc creates a nested userns and sysfs/proc mounts EPERM.
+  SupportsUserns = true
   [plugins."io.containerd.cri.v1.runtime".containerd.runtimes.sysbox-runc.options]
     BinaryName = "@SYSBOX_RUNC_PATH@"
     SystemdCgroup = true
