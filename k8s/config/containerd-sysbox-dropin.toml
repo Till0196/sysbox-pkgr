@@ -4,5 +4,5 @@
   # otherwise sysbox-runc creates a nested userns and sysfs/proc mounts EPERM.
   SupportsUserns = true
   [plugins."io.containerd.cri.v1.runtime".containerd.runtimes.sysbox-runc.options]
-    BinaryName = "@SYSBOX_RUNC_PATH@"
+    BinaryName = "/usr/bin/sysbox-runc"
     SystemdCgroup = true
